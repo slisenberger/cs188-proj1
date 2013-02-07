@@ -85,6 +85,12 @@ class PriorityQueue:
     def isEmpty(self):
         return len(self.heap) == 0
 
+    def toString(self):
+        t = []
+        for i in self.heap:
+            t.append(i[2])
+        return str(t)
+
 class PriorityQueueWithFunction(PriorityQueue):
     """
     Implements a priority queue with the same push/pop signature of the
