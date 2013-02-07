@@ -95,7 +95,6 @@ def depthFirstSearch(problem):
                 movelist = list(closed[expanded])
                 movelist.append(successor[1])
                 fringe.push((successor[0], movelist))
-                closed[successor[0]] = []
         #expand the next node
         if not fringe.isEmpty():
             nextnode = fringe.pop()
@@ -159,7 +158,6 @@ def uniformCostSearch(problem):
                 movelist = list(closed[expanded])
                 movelist.append(successor[1])
                 fringe.push((successor[0], movelist, exp_cost+successor[2]), exp_cost+successor[2])
-                closed[successor[0]] = []
         #expand the next node
         if not fringe.isEmpty():
             nextnode = fringe.pop()
