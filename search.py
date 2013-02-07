@@ -111,11 +111,37 @@ def depthFirstSearch(problem):
     # else, get the successors, put them on the priority queue by order of depth.
 
 def breadthFirstSearch(problem):
-    """
-    Search the shallowest nodes in the search tree first.
-    """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    from game import Directions
+    dirmap = {"South" : Directions.SOUTH, "North" : Directions.NORTH, "West" : Directions.WEST, "East" : Directions.EAST }
+    
+    # closed is a dictionary of nodes {Coordinates, movelist}
+    closed = {}
+    fringe = util.PriorityQueue()
+
+    # the node currently expanded
+    expanded = problem.getStartState()
+    closed[expanded] = []
+    depth = 0
+    while not problem.isGoalState(expanded):
+        #if successors exist, pursue them. otherwise, remove the last move from the list.
+        successors = problem.getSuccessors(expanded)
+        for successor in successors:
+            if successor[0] not in closed:
+                # push the tuple containing the coordinates, and a list of directions to reach this node.
+                movelist = list(closed[expanded])
+                movelist.append(dirmap[successor[1]])
+                fringe.push((successor[0], movelist, depth+1), depth+1)
+
+        #expand the next node
+        if not fringe.isEmpty():
+            nextnode = fringe.pop()
+            depth = nextnode[2]
+            expanded = nextnode[0]
+
+            # add the node the the set of visited nodes
+            closed[expanded] = nextnode[1]
+
+    return closed[expanded]
 
 def uniformCostSearch(problem):
     "Search the node of least total cost first. "
