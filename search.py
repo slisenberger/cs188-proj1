@@ -184,9 +184,37 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-    "Search the node that has the lowest combined cost and heuristic first."
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    from game import Directions
+    dirmap = {"South" : Directions.SOUTH, "North" : Directions.NORTH, "West" : Directions.WEST, "East" : Directions.EAST }
+    
+    # closed is a dictionary of nodes {Coordinates, movelist}
+    closed = {}
+    fringe = util.PriorityQueue()
+
+    # the node currently expanded
+    expanded = problem.getStartState()
+    closed[expanded] = []
+    exp_cost = 0
+    while not problem.isGoalState(expanded):
+        #if successors exist, pursue them. otherwise, remove the last move from the list.
+        successors = problem.getSuccessors(expanded)
+        for successor in successors:
+            if successor[0] not in closed:
+                # push the tuple containing the coordinates, and a list of directions to reach this node.
+                movelist = list(closed[expanded])
+                movelist.append(dirmap[successor[1]])
+                fringe.push((successor[0], movelist, exp_cost+successor[2]), exp_cost+heuristic(successor[0],problem))
+
+        #expand the next node
+        if not fringe.isEmpty():
+            nextnode = fringe.pop()
+            exp_cost = nextnode[2]
+            expanded = nextnode[0]
+
+            # add the node the the set of visited nodes
+            closed[expanded] = nextnode[1]
+
+    return closed[expanded]
 
 
 # Abbreviations
