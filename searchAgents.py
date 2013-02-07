@@ -279,15 +279,14 @@ class CornersProblem(search.SearchProblem):
 
         "*** YOUR CODE HERE ***"
 
+    # a state is defined as a tuple (startcoords, cornerflags)
     def getStartState(self):
-        "Returns the start state (in your state space, not the full Pacman state space)"
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        state = (self.startingPosition, [0,0,0,0])
+        return state
 
     def isGoalState(self, state):
-        "Returns whether this search state is a goal state of the problem"
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        flags = state[1]
+        return flags[0] and flags[1] and flags[2] and flags[3]
 
     def getSuccessors(self, state):
         """

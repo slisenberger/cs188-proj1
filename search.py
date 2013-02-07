@@ -79,9 +79,6 @@ def depthFirstSearch(problem):
     To get started, you might want to try some of these simple commands to
     understand the search problem that is being passed in:
 """
-    from game import Directions
-    dirmap = {"South" : Directions.SOUTH, "North" : Directions.NORTH, "West" : Directions.WEST, "East" : Directions.EAST }
-    
     # closed is a dictionary of nodes {Coordinates, movelist}
     closed = {}
     fringe = util.Stack()
@@ -96,7 +93,7 @@ def depthFirstSearch(problem):
             if successor[0] not in closed:
                 # push the tuple containing the coordinates, and a list of directions to reach this node.
                 movelist = list(closed[expanded])
-                movelist.append(dirmap[successor[1]])
+                movelist.append(successor[1])
                 fringe.push((successor[0], movelist))
 
         #expand the next node
@@ -110,8 +107,6 @@ def depthFirstSearch(problem):
     return closed[expanded]
 
 def breadthFirstSearch(problem):
-    from game import Directions
-    dirmap = {"South" : Directions.SOUTH, "North" : Directions.NORTH, "West" : Directions.WEST, "East" : Directions.EAST }
     
     # closed is a dictionary of nodes {Coordinates, movelist}
     closed = {}
@@ -120,7 +115,8 @@ def breadthFirstSearch(problem):
     # the node currently expanded
     expanded = problem.getStartState()
     closed[expanded] = []
-    depth = 0
+    depth = 1
+
     while not problem.isGoalState(expanded):
         #if successors exist, pursue them. otherwise, remove the last move from the list.
         successors = problem.getSuccessors(expanded)
@@ -128,8 +124,10 @@ def breadthFirstSearch(problem):
             if successor[0] not in closed:
                 # push the tuple containing the coordinates, and a list of directions to reach this node.
                 movelist = list(closed[expanded])
-                movelist.append(dirmap[successor[1]])
+                movelist.append(successor[1])
                 fringe.push((successor[0], movelist, depth+1), depth+1)
+                closed[successor[0]] = []
+
 
         #expand the next node
         if not fringe.isEmpty():
@@ -143,8 +141,6 @@ def breadthFirstSearch(problem):
     return closed[expanded]
 
 def uniformCostSearch(problem):
-    from game import Directions
-    dirmap = {"South" : Directions.SOUTH, "North" : Directions.NORTH, "West" : Directions.WEST, "East" : Directions.EAST }
     
     # closed is a dictionary of nodes {Coordinates, movelist}
     closed = {}
@@ -161,7 +157,7 @@ def uniformCostSearch(problem):
             if successor[0] not in closed:
                 # push the tuple containing the coordinates, and a list of directions to reach this node.
                 movelist = list(closed[expanded])
-                movelist.append(dirmap[successor[1]])
+                movelist.append(successor[1])
                 fringe.push((successor[0], movelist, exp_cost+successor[2]), exp_cost+successor[2])
 
         #expand the next node
@@ -172,6 +168,7 @@ def uniformCostSearch(problem):
 
             # add the node the the set of visited nodes
             closed[expanded] = nextnode[1]
+
 
     return closed[expanded]
 
@@ -184,8 +181,6 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-    from game import Directions
-    dirmap = {"South" : Directions.SOUTH, "North" : Directions.NORTH, "West" : Directions.WEST, "East" : Directions.EAST }
     
     # closed is a dictionary of nodes {Coordinates, movelist}
     closed = {}
@@ -202,7 +197,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             if successor[0] not in closed:
                 # push the tuple containing the coordinates, and a list of directions to reach this node.
                 movelist = list(closed[expanded])
-                movelist.append(dirmap[successor[1]])
+                movelist.append(successor[1])
                 fringe.push((successor[0], movelist, exp_cost+successor[2]), exp_cost+heuristic(successor[0],problem))
 
         #expand the next node
