@@ -376,16 +376,20 @@ def cornersHeuristic(state, problem):
             cornermanhattans.append(math.sqrt(dx**2+dy**2))"""
 
     cornermanhattans.sort()
-    if len(cornermanhattans) == 4:
-        return (.25*cornermanhattans[0] + .5*cornermanhattans[1] + .75*cornermanhattans[2] + 2.5*cornermanhattans[3])/4.0
-    if len(cornermanhattans) == 3:
-        return (.25*cornermanhattans[0] + .5*cornermanhattans[1] + 2.25*cornermanhattans[2])/3.0
-    if len(cornermanhattans) == 2:
-        return (.25*cornermanhattans[0] + 1.75*cornermanhattans[1])/2.0
-    elif len(cornermanhattans) == 1:
-        return 1*cornermanhattans[0]
-    else:
-        return 0
+    cornermanhattans.reverse()
+    if len(cornermanhattans) >=1:
+      return cornermanhattans[0]
+    return 0
+    # if len(cornermanhattans) == 4:
+    #     return (.25*cornermanhattans[0] + .5*cornermanhattans[1] + .75*cornermanhattans[2] + 2.5*cornermanhattans[3])/4.0
+    # if len(cornermanhattans) == 3:
+    #     return (.25*cornermanhattans[0] + .5*cornermanhattans[1] + 2.25*cornermanhattans[2])/3.0
+    # if len(cornermanhattans) == 2:
+    #     return (.25*cornermanhattans[0] + 1.75*cornermanhattans[1])/2.0
+    # elif len(cornermanhattans) == 1:
+    #     return 1*cornermanhattans[0]
+    # else:
+    #     return 0
 
 
 class AStarCornersAgent(SearchAgent):
@@ -502,6 +506,7 @@ def foodHeuristic(state, problem):
         manhattans[i] = manhattans[i] * coeff
 
     # return the number of pellets left, plus the manhattan distance remaining to the nearest pellet.
+
     if len(foodList) > 1:
         #return sum(manhattans) / float(len(foodList))
         return (1*manhattans[0] + 1*manhattans[1]) / 2.0
@@ -536,8 +541,9 @@ class ClosestDotSearchAgent(SearchAgent):
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
 
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        result = search.uniformCostSearch(problem)
+        return result
+
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -558,7 +564,6 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         "Stores information from the gameState.  You don't need to change this."
         # Store the food for later reference
         self.food = gameState.getFood()
-
         # Store info for the PositionSearchProblem (no need to change this)
         self.walls = gameState.getWalls()
         self.startState = gameState.getPacmanPosition()
@@ -571,11 +576,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         that will complete the problem definition.
         """
         x,y = state
-
-        "*** YOUR CODE HERE ***"
-        if len(self.food.asList()) == 0:
-          return True
-        return False
+        return (x,y) in self.food.asList()
 
 ##################
 # Mini-contest 1 #
