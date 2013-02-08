@@ -192,7 +192,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         #if successors exist, pursue them. otherwise, remove the last move from the list.
         successors = problem.getSuccessors(expanded)
         # print(successors)
-        print("closed:"+str(closed))
+        # print("closed:"+str(closed))
         for successor in successors:
             if successor[0] not in closed:
 
@@ -200,9 +200,9 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 movelist = list(closed[expanded])
                 movelist.append(successor[1])
                 fringe.push((successor[0], movelist, exp_cost+successor[2]), exp_cost+successor[2]+heuristic(successor[0],problem))
-                closed[successor[0]] = []
+                
 
-        print(fringe.toString())
+        #print(fringe.toString())
         #expand the next node
         if not fringe.isEmpty():
             nextnode = fringe.pop()

@@ -281,7 +281,8 @@ class CornersProblem(search.SearchProblem):
 
     # a state is defined as a tuple (startcoords, cornerflags)
     def getStartState(self):
-        state = (self.startingPosition, [0,0,0,0])
+        state = (self.startingPosition, (0,0,0,0))
+        util.raiseNotDefined()
         return state
 
     def isGoalState(self, state):
