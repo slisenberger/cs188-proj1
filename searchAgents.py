@@ -475,9 +475,41 @@ def foodHeuristic(state, problem):
       problem.heuristicInfo['wallCount'] = problem.walls.count()
     Subsequent calls to this heuristic can access problem.heuristicInfo['wallCount']
     """
+    # grab the state
     position, foodGrid = state
-    "*** YOUR CODE HERE ***"
-    return 0
+    foodList = foodGrid.asList()
+    x,y = position
+    manhattans = []
+
+
+
+    # find the manhattan distance from pacman to each pellet left in the game
+    for pellet in foodList:
+        dx,dy = abs(x-pellet[0]),abs(y-pellet[1])
+        manhattans.append(dx+dy)
+
+    # sort the list by manhattan distance
+    manhattans.sort()
+    manhattans.reverse()
+    weights = [1,1,1,1]
+    # weight the manhattan distances linearly
+    for i in range(len(foodList)):
+        #coeff = ((i+1)/float(len(foodList)))**2
+        if i < len(weights):
+            coeff = weights[i]
+        else:
+            coeff = 1
+        manhattans[i] = manhattans[i] * coeff
+
+    # return the number of pellets left, plus the manhattan distance remaining to the nearest pellet.
+    if len(foodList) > 1:
+        #return sum(manhattans) / float(len(foodList))
+        return (1*manhattans[0] + 1*manhattans[1]) / 2.0
+    elif len(foodList) == 1:
+        #return sum(manhattans) / float(len(foodList))
+        return (manhattans[0])
+    else:
+        return 0
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
