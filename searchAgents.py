@@ -376,12 +376,14 @@ def cornersHeuristic(state, problem):
             cornermanhattans.append(math.sqrt(dx**2+dy**2))"""
 
     cornermanhattans.sort()
-    if len(cornermanhattans) >= 3:
-        return (cornermanhattans[0] + cornermanhattans[1] + cornermanhattans[2])/3
-    if len(cornermanhattans) >= 2:
-        return (cornermanhattans[0] + cornermanhattans[1])/2
+    if len(cornermanhattans) == 4:
+        return (.25*cornermanhattans[0] + .5*cornermanhattans[1] + .75*cornermanhattans[2] + 2.5*cornermanhattans[3])/4.0
+    if len(cornermanhattans) == 3:
+        return (.25*cornermanhattans[0] + .5*cornermanhattans[1] + 2.25*cornermanhattans[2])/3.0
+    if len(cornermanhattans) == 2:
+        return (.25*cornermanhattans[0] + 1.75*cornermanhattans[1])/2.0
     elif len(cornermanhattans) == 1:
-        return cornermanhattans[0]
+        return 1*cornermanhattans[0]
     else:
         return 0
 
