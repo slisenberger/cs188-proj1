@@ -369,9 +369,15 @@ def cornersHeuristic(state, problem):
         if not flags[i]:
             dx = abs(x-corners[i][0])
             dy = abs(y-corners[i][1])
+            """ manhattan = dx+dy """
             cornermanhattans.append(dx+dy)
+            """ euclidean = sqrt(dx^2+dy^2)
+            import math
+            cornermanhattans.append(math.sqrt(dx**2+dy**2))"""
 
     cornermanhattans.sort()
+    if len(cornermanhattans) >= 3:
+        return (cornermanhattans[0] + cornermanhattans[1] + cornermanhattans[2])/3
     if len(cornermanhattans) >= 2:
         return (cornermanhattans[0] + cornermanhattans[1])/2
     elif len(cornermanhattans) == 1:
