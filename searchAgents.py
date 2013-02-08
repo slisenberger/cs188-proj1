@@ -573,7 +573,9 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        if len(self.food.asList()) == 0:
+          return True
+        return False
 
 ##################
 # Mini-contest 1 #
