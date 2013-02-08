@@ -282,7 +282,6 @@ class CornersProblem(search.SearchProblem):
     # a state is defined as a tuple (startcoords, cornerflags)
     def getStartState(self):
         state = (self.startingPosition, (0,0,0,0))
-        util.raiseNotDefined()
         return state
 
     def isGoalState(self, state):
@@ -309,8 +308,25 @@ class CornersProblem(search.SearchProblem):
             #   dx, dy = Actions.directionToVector(action)
             #   nextx, nexty = int(x + dx), int(y + dy)
             #   hitsWall = self.walls[nextx][nexty]
+            x,y = state[0]
+            flags = state[1]
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x+dx), int(y+dy)
+            if not self.walls[nextx][nexty]:
+                coords = (nextx, nexty)
+                if coords == self.corners[0]:
+                    nextflags = (1, flags[1], flags[2], flags[3])
+                elif coords == self.corners[1]:
+                    nextflags = (flags[0], 1, flags[2], flags[3])
+                elif coords == self.corners[2]:
+                    nextflags = (flags[0], flags[1], 1, flags[3])
+                elif coords == self.corners[3]:
+                    nextflags = (flags[0], flags[1], flags[2], 1)
+                else:
+                    nextflags = flags
+                successor = (coords,nextflags)
+                successors.append((successor,action,1))
 
-            "*** YOUR CODE HERE ***"
 
         self._expanded += 1
         return successors
