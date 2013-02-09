@@ -489,8 +489,7 @@ def foodHeuristic(state, problem):
 
     # find the manhattan distance from pacman to each pellet left in the game
     for pellet in foodList:
-        dx,dy = abs(x-pellet[0]),abs(y-pellet[1])
-        manhattans.append(dx+dy)
+        manhattans.append(mazeDistance(pellet,position,problem.startingGameState))
 
     # sort the list by manhattan distance
     manhattans.sort()
